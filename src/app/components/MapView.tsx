@@ -64,10 +64,7 @@ export function MapView({ nodes, edges, highlightedPath }: MapViewProps) {
 
         {/* Node markers */}
         {nodes.map((node) => (
-          <MapMarker
-            key={node.id}
-            position={[node.latitude, node.longitude]}
-          >
+          <MapMarker key={node.id} position={[node.latitude, node.longitude]}>
             <MapPopup>
               <div className="p-2 text-sm font-medium">{node.name}</div>
             </MapPopup>
