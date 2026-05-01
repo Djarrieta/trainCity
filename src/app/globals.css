@@ -1,0 +1,137 @@
+@import "tailwindcss";
+
+:root {
+  --radius: 0;
+  --background: #fff;
+  --foreground: #000;
+  --card: #fff;
+  --card-foreground: #000;
+  --primary: #ffdb33;
+  --primary-hover: #ffcc00;
+  --primary-foreground: #000;
+  --secondary: #000;
+  --secondary-foreground: #fff;
+  --muted: #aeaeae;
+  --muted-foreground: #5a5a5a;
+  --accent: #fae583;
+  --accent-foreground: #000;
+  --destructive: #e63946;
+  --destructive-foreground: #fff;
+  --border: #000;
+  --input: #fff;
+  --ring: #ffdb33;
+  --ring-offset-background: #fff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #1a1a1a;
+    --foreground: #f5f5f5;
+    --card: #262626;
+    --card-foreground: #f5f5f5;
+    --primary: #ffdb33;
+    --primary-hover: #ffcc00;
+    --primary-foreground: #000;
+    --secondary: #f5f5f5;
+    --secondary-foreground: #1a1a1a;
+    --muted: #404040;
+    --muted-foreground: #a3a3a3;
+    --accent: #fae583;
+    --accent-foreground: #000;
+    --destructive: #e63946;
+    --destructive-foreground: #fff;
+    --border: #f5f5f5;
+    --input: #262626;
+    --ring: #ffdb33;
+    --ring-offset-background: #1a1a1a;
+  }
+}
+
+@theme inline {
+  --font-head: var(--font-head), system-ui, sans-serif;
+  --font-sans: var(--font-sans), system-ui, sans-serif;
+  --radius: var(--radius);
+
+  --shadow-xs: 1px 1px 0 0 var(--border);
+  --shadow-sm: 2px 2px 0 0 var(--border);
+  --shadow: 3px 3px 0 0 var(--border);
+  --shadow-md: 4px 4px 0 0 var(--border);
+  --shadow-lg: 6px 6px 0 0 var(--border);
+  --shadow-xl: 10px 10px 0 1px var(--border);
+  --shadow-2xl: 16px 16px 0 1px var(--border);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-primary-hover: var(--primary-hover);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+@layer base {
+  .leaflet-container {
+    @apply !bg-card !font-[inherit];
+  }
+  .leaflet-container a {
+    @apply !text-inherit;
+  }
+  .leaflet-div-icon {
+    @apply !bg-transparent !border-none;
+  }
+  .leaflet-popup-content-wrapper, .leaflet-popup-content, .leaflet-popup-content p {
+    @apply ![all:unset];
+  }
+  .leaflet-popup {
+    @apply !animate-none;
+  }
+  .leaflet-popup-close-button {
+    @apply bg-secondary rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:outline-hidden;
+  }
+  .leaflet-tooltip, .leaflet-draw-tooltip {
+    @apply !bg-foreground !text-background !animate-none !rounded-md !border-none !p-0 !px-3 !py-1.5 !shadow-none;
+  }
+  .leaflet-draw-tooltip:before {
+    @apply bg-foreground !top-1/2 !right-0.5 size-2.5 translate-x-1/2 -translate-y-1/2 rotate-45 rounded-[2px] !border-none;
+  }
+  .leaflet-error-draw-tooltip {
+    @apply !bg-destructive !text-white;
+  }
+  .leaflet-error-draw-tooltip:before {
+    @apply bg-destructive;
+  }
+  .leaflet-draw-tooltip-subtext {
+    @apply !text-background;
+  }
+  .leaflet-popup-tip-container, .leaflet-tooltip-top:before, .leaflet-tooltip-bottom:before, .leaflet-tooltip-left:before, .leaflet-tooltip-right:before {
+    @apply hidden;
+  }
+  .leaflet-control-attribution {
+    @apply !bg-muted rounded-md !px-[4px] !py-[2px] text-[10px] !leading-none !text-inherit;
+  }
+  .leaflet-draw-guide-dash {
+    @apply rounded-full;
+  }
+  .leaflet-edit-marker-selected {
+    @apply !border-transparent !bg-transparent;
+  }
+  .marker-cluster div {
+    @apply font-[inherit];
+  }
+}
