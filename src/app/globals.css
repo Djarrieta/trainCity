@@ -95,14 +95,30 @@ body {
   .leaflet-div-icon {
     @apply !bg-transparent !border-none;
   }
-  .leaflet-popup-content-wrapper, .leaflet-popup-content, .leaflet-popup-content p {
-    @apply ![all:unset];
+  .leaflet-popup-content-wrapper {
+    background-color: var(--background) !important;
+    color: var(--foreground) !important;
+    border: 2px solid var(--border) !important;
+    border-radius: 4px !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+  .leaflet-popup-content {
+    @apply !m-0 !p-0 !text-sm !leading-normal;
+  }
+  .leaflet-popup-content p {
+    @apply !m-0;
   }
   .leaflet-popup {
     @apply !animate-none;
   }
   .leaflet-popup-close-button {
-    @apply bg-secondary rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:outline-hidden;
+    @apply !text-foreground !text-lg !top-1 !right-1.5 opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:outline-hidden;
+  }
+  .leaflet-popup-tip {
+    background-color: var(--background) !important;
+    border: 2px solid var(--border) !important;
+    box-shadow: none !important;
   }
   .leaflet-tooltip, .leaflet-draw-tooltip {
     @apply !bg-foreground !text-background !animate-none !rounded-md !border-none !p-0 !px-3 !py-1.5 !shadow-none;
@@ -119,7 +135,7 @@ body {
   .leaflet-draw-tooltip-subtext {
     @apply !text-background;
   }
-  .leaflet-popup-tip-container, .leaflet-tooltip-top:before, .leaflet-tooltip-bottom:before, .leaflet-tooltip-left:before, .leaflet-tooltip-right:before {
+  .leaflet-tooltip-top:before, .leaflet-tooltip-bottom:before, .leaflet-tooltip-left:before, .leaflet-tooltip-right:before {
     @apply hidden;
   }
   .leaflet-control-attribution {

@@ -35,7 +35,7 @@ export default function RootLayout({
       className={`${archivoBlack.variable} ${spaceGrotesk.variable} h-full`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col font-sans">
+      <body className="h-full flex flex-col font-sans overflow-hidden">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <nav className="border-b-2 border-border px-4 py-3 flex items-center justify-between">
             <div className="flex items-center gap-6">
