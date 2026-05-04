@@ -32,6 +32,9 @@ export function MapView({
   const [originId, setOriginId] = useState<number | null>(null);
   const [result, setResult] = useState<QuickScheduleResult | null>(null);
   const [isPending, startTransition] = useTransition();
+  const [selectedScheduleId, setSelectedScheduleId] = useState<number | null>(
+    schedules.length > 0 ? schedules[schedules.length - 1].id : null,
+  );
 
   const center: LatLngExpression =
     nodes.length > 0
@@ -56,6 +59,9 @@ export function MapView({
       startTransition(async () => {
         const res = await quickSchedule(origin, destId);
         setResult(res);
+        if (res.success && res.scheduleId) {
+          setSelectedScheduleId(res.scheduleId);
+        }
       });
     }
   }
@@ -64,6 +70,9 @@ export function MapView({
     startTransition(async () => {
       await cancelSchedule(scheduleId);
       setResult(null);
+      if (selectedScheduleId === scheduleId) {
+        setSelectedScheduleId(null);
+      }
     });
   }
 
@@ -155,21 +164,39 @@ export function MapView({
           {schedules.map((s) => (
             <div
               key={s.id}
-              className="text-xs border-b border-border pb-1 mb-1 last:border-0 last:mb-0 last:pb-0"
+              onClick={() => setSelectedScheduleId(s.id)}
+              className={`text-xs border-b border-border pb-1 mb-1 last:border-0 last:mb-0 last:pb-0 cursor-pointer rounded px-1 py-0.5 transition-colors ${
+                selectedScheduleId === s.id
+                  ? "bg-blue-100 dark:bg-blue-900/30"
+                  : "hover:bg-muted"
+              }`}
             >
               <div className="flex justify-between items-start gap-2">
                 <span className="font-medium">{s.name}</span>
                 <button
-                  onClick={() => handleCancel(s.id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleCancel(s.id);
+                  }}
                   disabled={isPending}
                   className="text-destructive underline shrink-0"
                 >
                   Cancel
                 </button>
               </div>
-              <span className="text-muted-foreground">
-                {new Date(s.departure_time).toLocaleString()}
+              <span className="text-muted-foreground block">
+                Departs: {new Date(s.departure_time).toLocaleTimeString()}
               </span>
+              {s.schedule_edges.length > 0 && (
+                <span className="text-muted-foreground block">
+                  Arrives:{" "}
+                  {new Date(
+                    [...s.schedule_edges].sort(
+                      (a, b) => b.position - a.position,
+                    )[0].end_time,
+                  ).toLocaleTimeString()}
+                </span>
+              )}
             </div>
           ))}
         </div>
@@ -198,18 +225,21 @@ export function MapView({
           );
         })}
 
-        {/* Scheduled trip paths */}
-        {schedules.map((schedule) => {
-          const positions = getSchedulePath(schedule);
-          if (positions.length < 2) return null;
-          return (
-            <MapPolyline
-              key={`schedule-${schedule.id}`}
-              positions={positions}
-              className="!stroke-blue-500 !stroke-[3] !fill-none opacity-70"
-            />
-          );
-        })}
+        {/* Selected scheduled trip path */}
+        {selectedScheduleId &&
+          (() => {
+            const schedule = schedules.find((s) => s.id === selectedScheduleId);
+            if (!schedule) return null;
+            const positions = getSchedulePath(schedule);
+            if (positions.length < 2) return null;
+            return (
+              <MapPolyline
+                key={`schedule-${schedule.id}`}
+                positions={positions}
+                className="!stroke-blue-500 !stroke-[3] !fill-none opacity-70"
+              />
+            );
+          })()}
 
         {/* Highlighted path */}
         {highlightedPath && highlightedPath.length > 1 && (
