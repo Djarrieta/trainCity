@@ -31,8 +31,8 @@ export function MapView({ nodes, edges, highlightedPath }: MapViewProps) {
     <div className="flex-1 relative">
       <Map center={center} zoom={15}>
         <MapTileLayer
-          url="https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}"
-          attribution="Tiles &copy; Esri &mdash; National Geographic"
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
 
         {/* Edge lines */}
@@ -58,7 +58,7 @@ export function MapView({ nodes, edges, highlightedPath }: MapViewProps) {
             positions={highlightedPath.map(
               (n) => [n.latitude, n.longitude] as [number, number],
             )}
-            className="!stroke-primary !stroke-[4] !fill-none"
+            className="!stroke-red-500 !stroke-[4] !fill-none"
           />
         )}
 
